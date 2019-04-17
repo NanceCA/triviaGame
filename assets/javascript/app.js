@@ -16,9 +16,9 @@ $(document).on("click", "#done", function () {
     game.done();
 });
 
-var card = $("#quiz-area");
+var quizHolder = $("#quiz-area");
 
-// objects for questions
+// objects to hold questions
 var questions = [
     {
         question: "Who headlined at Coachella this year?",
@@ -61,25 +61,25 @@ var game = {
         $("#start").remove();
 
         for (var i = 0; i < questions.length; i++) {
-            card.append("<h2>" + questions[i].question + "</h2>");
+            quizHolder.append("<h2>" + questions[i].question + "</h2>");
             for (var k = 0; k < questions[i].answers.length; k++) {
-                card.append("<input type='button' name='question-" + i +
+                quizHolder.append("<input type='button' name='question-" + i +
                     "' value='" + questions[i].answers[k] + "''>" + questions[i].answers[k]);
             }
         }
 
-        card.append("<button id='done'>Submit</button>");
+        quizHolder.append("<button id='done'>Submit</button>");
     },
 
 
     //leveraged online playform for code, still trying to figure out a better way
     done: function () {
-        var inputs = card.children("input:checked");
+        var inputs = quizHolder.children("input:checked");
         for (var i = 0; i < inputs.length; i++) {
-            if ($(inputs[i]).val() === questions[i].correctAnswer) {
-                game.correct++;
+            if ($(inputs[i]).val() === questions[i].correctAnswer) { //.val method returns the user input value
+                game.correct++; //increasing correct scores by one
             } else {
-                game.incorrect++;
+                game.incorrect++; //increasing incorrect scores by one
             }
         }
         this.result();
@@ -90,9 +90,9 @@ var game = {
 
         $("#sub-wrapper h2").remove();
 
-        card.html("<h2>All Done!</h2>");
-        card.append("<h3>Correct: " + this.correct + "</h3>");
-        card.append("<h3>Incorrect: " + this.incorrect + "</h3>");
+        quizHolder.html("<h2>You're done!</h2>");
+        quizHolder.append("<h3>Correct: " + game.correct + "</h3>");
+        quizHolder.append("<h3>Incorrect: " + game.incorrect + "</h3>");
     }
 };
 
